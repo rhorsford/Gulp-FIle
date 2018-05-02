@@ -1,0 +1,38 @@
+{
+  "name": "test-gulpscript",
+  "description": "Moving files anf adding versions",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": ">=6.11.1 <7.0"
+  },
+  "dependencies": {
+    "browser-sync": "^2.11.1",
+    "file-system": "^2.2.2",
+    "fs": "0.0.1-security",
+    "fs-extra": "^5.0.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-image": "^4.3.0",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-prompt": "^1.0.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-size": "^3.0.0",
+    "gulp-uglify": "^3.0.0",
+    "imagemin-gifsicle": "^5.2.0",
+    "imagemin-jpegtran": "^5.0.2",
+    "imagemin-optipng": "^5.2.1",
+    "readline-sync": "^1.4.9",
+    "rimraf": "^2.6.2",
+    "rmdir-recursive": "0.0.1"
+  },
+  "devDependencies": {
+    "gulp-bump": "^3.1.1",
+    "gulp-sequence": "^1.0.0",
+    "gulp-zip": "^4.1.0",
+    "imagemin-svgo": "^6.0.0",
+    "run-sequence": "^2.2.1",
+    "yargs": "^11.0.0"
+  }
+}
