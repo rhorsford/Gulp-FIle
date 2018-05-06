@@ -51,6 +51,24 @@ var readlineSync = require('readline-sync');
 var versionTypes = ['Major', 'Minor', 'Patch'];
 var index = readlineSync.keyInSelect(versionTypes, 'What type of Versioning?');
 
+//Variables for Versioning
+var docString = fs.readFileSync('version.js', 'utf8');
+var versionParts = docString.split('.');
+var vArray = {
+    vMajor: versionParts[0],
+    vMinor: versionParts[1],
+    vPatch: versionParts[2]
+};
+
+var periodString = ".";
+
+var oldVersionNumber = vArray.vMajor + periodString +
+    vArray.vMinor + periodString +
+    vArray.vPatch;
+
+var oldnumbstr = oldVersionNumber.toString();
+
+var reg = /[0-9]|[\.-]/;
 
 // compile all your Sass
 gulp.task('sass', function () {
@@ -68,6 +86,7 @@ gulp.task('sass', function () {
 
 });
 
+//Zip Assets
 gulp.task('zip', function () {
     return gulp.src(['./app/public/*', './app/public/**/**'])
         .pipe(zip('assets.zip'))
@@ -82,13 +101,11 @@ gulp.task('uglify', function () {
 });
 
 // Images
-
 gulp.task('imagemin', function () {
     gulp.src(['app/assets/**/*.png', 'app/assets/**/**/*.png'])
         .pipe(imagemin({progressive: true}))
         .pipe(gulp.dest('app/public/'));
 });
-
 
 // Stats and Things
 gulp.task('stats', function () {
@@ -97,6 +114,7 @@ gulp.task('stats', function () {
         .pipe(gulp.dest('app/public/'));
 });
 
+// Clean up
 gulp.task('clean-up', function () {
     //removes directory on build
 
@@ -108,66 +126,21 @@ gulp.task('clean-up', function () {
 // Versioning
 //@todo: will break down into 1 function to run
 gulp.task('increment-Major', function () {
-    //docString is the file from which you will get your constant string
-    var docString = fs.readFileSync('version.js', 'utf8');
-
-    // Spliting number into a string
-    var versionParts = docString.split('.');
-
-    //...Split the version number string into elements so you can bump the one you want
-    // var versionParts = oldVersionNumber.split('.');
-    var vArray = {
-        vMajor: versionParts[0],
-        vMinor: versionParts[1],
-        vPatch: versionParts[2]
-    };
-
-    var periodString = ".";
-
-    var oldVersionNumber = vArray.vMajor + periodString +
-        vArray.vMinor + periodString +
-        vArray.vPatch;
-
-
     vArray.vMajor = parseFloat(vArray.vMajor) + 1;
 
     var MajorVersionNumber = vArray.vMajor + periodString +
         vArray.vMinor + periodString +
         vArray.vPatch;
 
-
-    var oldnumbstr = oldVersionNumber.toString();
     var newnumbstr = MajorVersionNumber.toString();
 
     require('fs').writeFileSync('version.js', MajorVersionNumber);
 
-    fs.renameSync('app/assets/' + oldnumbstr + '', 'app/assets/' + newnumbstr + ''); //version based on previous
-
-    return gulp.src(['version.js'])
-        .pipe(gulp.dest('./'));//creates version.js file in the directory
+    renameSequence(newnumbstr);
 });
 
+
 gulp.task('increment-Minor', function () {
-    //docString is the file from which you will get your constant string
-    var docString = fs.readFileSync('version.js', 'utf8');
-
-    // Spliting number into a string
-    var versionParts = docString.split('.');
-
-    //...Split the version number string into elements so you can bump the one you want
-    // var versionParts = oldVersionNumber.split('.');
-    var vArray = {
-        vMajor: versionParts[0],
-        vMinor: versionParts[1],
-        vPatch: versionParts[2]
-    };
-
-    var periodString = ".";
-
-    var oldVersionNumber = vArray.vMajor + periodString +
-        vArray.vMinor + periodString +
-        vArray.vPatch;
-
 
     vArray.vMinor = parseFloat(vArray.vMinor) + 1;
 
@@ -175,39 +148,14 @@ gulp.task('increment-Minor', function () {
         vArray.vMinor + periodString +
         vArray.vPatch;
 
-
-    var oldnumbstr = oldVersionNumber.toString();
-    var newnumbstrM = MinorVersionNumber.toString();
+    var newnumbstr = MinorVersionNumber.toString();
 
     require('fs').writeFileSync('version.js', MinorVersionNumber);
 
-    fs.renameSync('app/assets/' + oldnumbstr + '', 'app/assets/' + newnumbstrM + ''); //version based on previous
-
-    return gulp.src(['version.js'])
-        .pipe(gulp.dest('./'));//creates version.js file in the directory
+    renameSequence(newnumbstr);
 });
 
 gulp.task('increment-Patch', function () {
-    //docString is the file from which you will get your constant string
-    var docString = fs.readFileSync('version.js', 'utf8');
-
-    // Spliting number into a string
-    var versionParts = docString.split('.');
-
-    //...Split the version number string into elements so you can bump the one you want
-    // var versionParts = oldVersionNumber.split('.');
-    var vArray = {
-        vMajor: versionParts[0],
-        vMinor: versionParts[1],
-        vPatch: versionParts[2]
-    };
-
-    var periodString = ".";
-
-    var oldVersionNumber = vArray.vMajor + periodString +
-        vArray.vMinor + periodString +
-        vArray.vPatch;
-
 
     vArray.vPatch = parseFloat(vArray.vPatch) + 1;
 
@@ -215,16 +163,19 @@ gulp.task('increment-Patch', function () {
         vArray.vMinor + periodString +
         vArray.vPatch;
 
-    var oldnumbstr = oldVersionNumber.toString();
     var newnumbstr = PatchVersionNumber.toString();
 
     require('fs').writeFileSync('version.js', PatchVersionNumber);
 
+    renameSequence(newnumbstr);
+});
+
+function renameSequence(newnumbstr) {
     fs.renameSync('app/assets/' + oldnumbstr + '', 'app/assets/' + newnumbstr + ''); //version based on previous
 
     return gulp.src(['version.js'])
         .pipe(gulp.dest('./'));//creates version.js file in the directory
-});
+}
 
 gulp.task('default', function () {
 
