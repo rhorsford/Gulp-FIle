@@ -2,7 +2,9 @@ app/*
 /app
 .idea/*
 /.idea
+/public
 
 .DS_STORE
 app/.DS_STORE
 /node_modules
+assets.zip

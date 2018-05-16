@@ -33,7 +33,6 @@ gulp.task('default', function () {
 gulp.task('version', function (cb) {
 
     if (versionTypes[index] == 'Major') {
-        console.log('lol');
         gulpSequence(['clean-up'], ['increment-Major'], ['sass', 'uglify', 'imagemin'], cb);
 
         setTimeout(function () {
@@ -42,7 +41,6 @@ gulp.task('version', function (cb) {
     }
 
     else if (versionTypes[index] == 'Minor') {
-        console.log('lol2');
         gulpSequence(['clean-up'], ['increment-Minor'], ['sass', 'uglify', 'imagemin'], cb);
 
         setTimeout(function () {
@@ -51,7 +49,6 @@ gulp.task('version', function (cb) {
     }
 
     else if (versionTypes[index] == 'Patch') {
-        console.log('lol3');
         gulpSequence(['clean-up'], ['increment-Patch'], ['sass', 'uglify', 'imagemin'], cb);
 
         setTimeout(function () {
