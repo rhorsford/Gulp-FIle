@@ -2,3 +2,7 @@ app/*
 /app
 .idea/*
 /.idea
+
+.DS_STORE
+app/.DS_STORE
+/node_modules
